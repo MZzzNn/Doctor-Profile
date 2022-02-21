@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:task3_3lir/screens/docor_screen.dart';
+import '../category_model.dart';
+import '../doctor_model.dart';
 import '../widgets/naficotion_icon.dart';
 import '../widgets/roundedCad.dart';
 import '../widgets/build_texField.dart';
@@ -19,9 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
-        backgroundColor:Theme.of(context).primaryColor,
         actions: [
-          NotificotionIcon(context),
+          notificationIcon(context),
           Padding(
             padding: const EdgeInsets.only(right:20.0,top: 10,bottom: 10),
             child: Container(
@@ -50,111 +51,98 @@ class _HomeScreenState extends State<HomeScreen> {
                   topLeft:  Radius.circular(35),
                 )
               ),
-            ),
-            Positioned(
-              top: 25,
-              left: 25,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text('Hi, Olivia',style: TextStyle(
-                  color: Theme.of(context).canvasColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-                ),),
-                  SizedBox(height: 5,),
-                  Text('Welcome Back',style: TextStyle(
-                      color: Theme.of(context).canvasColor,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800
-                  ),),
+
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Hi, Olivia',style: TextStyle(
+                            color: Theme.of(context).canvasColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600
+                        ),),
+                        SizedBox(height: 5,),
+                        Text('Welcome Back',style: TextStyle(
+                            color: Theme.of(context).canvasColor,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w800
+                        ),),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: CustomTextFiled()
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Category',style: TextStyle(
+                            fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor),),
+                        Text('See all',style: TextStyle(
+                            fontSize: 16,color: Colors.grey[600],fontWeight: FontWeight.w600),),
+                      ],
+                    ),
+                  ),
+
+                  Container(
+                    height: MediaQuery.of(context).size.width*0.3,//120
+                    width:MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.only(left: 20,),
+                    child:ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categoriesData.length,
+                        itemBuilder: (ctx,index){
+                          return CategoryCard(categoryData: categoriesData[index],);
+                        }),
+                  ),
+                  SizedBox(height: 15,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Top rate',style: TextStyle(
+                            fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor),),
+                        Text('See all',style: TextStyle(
+                            fontSize: 16,color: Colors.grey[600],fontWeight: FontWeight.w600),),
+                      ],
+                    ),
+                  ),
+
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child:ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: doctorsData.length,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (ctx,index){
+                            return InkWell(
+                              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>DoctorScreen(doctorData: doctorsData[index],))),
+                              child: RoundedCard(doctorData: doctorsData[index]),
+                            );
+                          }),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Positioned(
-                top: 110,
-                left: 25,
-                right: 25,
-                child: textField(context)
-            ),
-            Positioned(
-               top: 185,
-                left: 25,
-                right: 25,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Category',style: TextStyle(
-                        fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor),),
-                    Text('See all',style: TextStyle(
-                        fontSize: 16,color: Colors.grey[600],fontWeight: FontWeight.w600),),
-                  ],
-                ),
-            ),
-
-            Positioned(
-              top: 220,
-              left: 25,
-              child: Container(
-                height: 120,
-                width:MediaQuery.of(context).size.width,
-                child:ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: materialRounded.length,
-                  itemBuilder: (ctx,index){
-                    return RoundedContainer(
-                      context,materialRounded[index]['title'],
-                      materialRounded[index]['icon'],
-                      materialRounded[index]['subTitle'],
-                    );
-                  }),
-              ),
-            ),
-            Positioned(
-              top: 363,
-              left: 25,
-              right: 25,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Top rate',style: TextStyle(
-                      fontSize: 20,fontWeight: FontWeight.bold,color: Theme.of(context).canvasColor),),
-                  Text('See all',style: TextStyle(
-                      fontSize: 16,color: Colors.grey[600],fontWeight: FontWeight.w600),),
-                ],
-              ),
-            ),
-            Positioned(
-                top: 390,
-                left: 25,
-                right: 25,
-                child: Container(
-                  height: 300,
-                  width:MediaQuery.of(context).size.width,
-                  child:ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: materialCard.length,
-                      itemBuilder: (ctx,index){
-                        return InkWell(
-                          onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_)=>DoctorScreen())),
-                          child: RoundedCard(
-                            context,materialCard[index]['title'],
-                            materialCard[index]['subTitle'],
-                            materialCard[index]['star'],
-                            materialCard[index]['km'],
-                            materialCard[index]['image'],
-                          ),
-                        );
-                      }),
-                ),
-            ),
-
-
-
           ],
         ),
       ),
-
     );
   }
 }

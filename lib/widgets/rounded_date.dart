@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../date_model.dart';
+
 
 List<Map<String,dynamic>> materialDate=[
   {
@@ -47,31 +49,38 @@ List<Map<String,dynamic>> materialDate=[
   },
 ];
 
-Widget RoundedDate(BuildContext context,String day,String month,Color textc,Color bgc){
-  return  Padding(
-    padding: const EdgeInsets.only(right:15.0),
-    child: Container(
-      height: 70,
-      width: 60,
-      decoration: BoxDecoration(
-          color:bgc,
-          borderRadius: BorderRadius.circular(10)
+
+class RoundedDateCard extends StatelessWidget {
+  final DateOfDayModel dateOfDayModel;
+  final bool active;
+  const RoundedDateCard({Key? key, required this.dateOfDayModel, required this.active}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right:15.0),
+      child: Container(
+        height: 70,
+        width: 60,
+        decoration: BoxDecoration(
+            color:active ? Color(0xff0F7260):Colors.white,
+            borderRadius: BorderRadius.circular(10)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(dateOfDayModel.dayStr,style: TextStyle(color: active ? Colors.white:Color(0xff404040),fontWeight: FontWeight.bold,fontSize: 16),),
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(5)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:3.0,vertical: 2.0),
+                  child: Text(' ${dateOfDayModel.daysNum} ',style: TextStyle(color: active ? Colors.white:Color(0xff404040),fontWeight: FontWeight.w700,fontSize: 15),),
+                )),
+          ],
+        ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(month,style: TextStyle(color: textc,fontWeight: FontWeight.bold,fontSize: 16),),
-          Container(
-              decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal:3.0,vertical: 2.0),
-                child: Text(' ${day} ',style: TextStyle(color: textc,fontWeight: FontWeight.w700,fontSize: 15),),
-              )),
-        ],
-      ),
-    ),
-  );
+    );
+  }
 }

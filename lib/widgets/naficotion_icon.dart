@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget NotificotionIcon(BuildContext context){
-  return   Stack(
+
+Widget notificationIcon(BuildContext context){
+  return Stack(
     children: <Widget>[
       IconButton(
           icon: Icon(Icons.notifications_none, color: Colors.white, size: 26,),
